@@ -151,6 +151,46 @@ function addColor()
 	
 }
 
+function registerNewUser()
+{
+	let newFirstName = document.getElementById("newFirstName").value;
+	let newLastName = document.getElementById("newLastName").value;
+	let newLogin = document.getElementById("newLogin").value;
+	let newPassword = document.getElementById("newPassword").value;
+	document.getElementById("registerResult").innerHTML = "";
+
+	let tmp = {
+		firstName:newFirstName,
+		lastName:newLastName,
+		login:newLogin,
+		password,newPassword
+	};
+
+	let jsonPayload = JSON.stringify( tmp );
+
+	let url = urlBase + '/RegisterNewUser.' + extension;
+	
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				document.getElementById("registerResult").innerHTML = "New User has been registered!";
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("registerResult").innerHTML = err.message;
+	}
+	
+}
+
 function searchColor()
 {
 	let srch = document.getElementById("searchText").value;

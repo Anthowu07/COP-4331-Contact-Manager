@@ -1,8 +1,10 @@
 <?php
 	$inData = getRequestInfo();
 	
-	$color = $inData["color"];
-	$userId = $inData["userId"];
+	$firstName = $inData["firstName"];
+	$lastName = $inData["lastName"];
+    $login = $inData["login"];
+	$password = $inData["password"];
 
 	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 	if ($conn->connect_error) 
@@ -11,12 +13,27 @@
 	} 
 	else
 	{
-		$stmt = $conn->prepare("INSERT into Colors (UserId,Name) VALUES(?,?)");
-		$stmt->bind_param("ss", $userId, $color);
-		$stmt->execute();
-		$stmt->close();
+		$checkIfExists_stmt = $conn->prepare("SELECT Login,Password FROM Users WHERE Login=? AND Password =?");
+        $checkIfExists_stmt->bind_param("ss", $login, $password);
+		$checkIfExists_stmt->execute();
+		$result = $checkIfExists_stmt->get_result();
+
+        if( $row = $result->fetch_assoc()  )
+		{
+			returnWithError("User already exists");
+		}
+		else
+		{
+			$stmt = $conn->prepare("INSERT INTO Users (FirstName, LastName, Login, Password) VALUES(?,?,?,?)");
+		    $stmt->bind_param("ssss", $firstName, $lastName, $login, $password);
+		    $stmt->execute();
+            //returnWithError("User registered");
+            returnWithInfo( $firstName, $lastName, $login, $password );
+            $stmt->close();
+		}
+        $checkIfExists_stmt->close();
 		$conn->close();
-		returnWithError("");
+        
 	}
 
 	function getRequestInfo()
@@ -33,6 +50,16 @@
 	function returnWithError( $err )
 	{
 		$retValue = '{"error":"' . $err . '"}';
+		sendResultInfoAsJson( $retValue );
+	}
+
+    function returnWithInfo( $firstName, $lastName, $login, $password )
+	{
+		$retValue = '{"firstName":"' . $firstName . '",
+                        "lastName":"' . $lastName . '",
+                        "login":"' . $login . '",
+                        "password":"' . $password . '",
+                        "error":""}';
 		sendResultInfoAsJson( $retValue );
 	}
 	
