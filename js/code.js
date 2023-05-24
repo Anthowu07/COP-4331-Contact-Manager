@@ -7,49 +7,61 @@ let lastName = "";
 
 function doLogin()
 {
+	//Initializes variables
 	userId = 0;
 	firstName = "";
 	lastName = "";
 	
+	//Grabs values entered by user on website
 	let login = document.getElementById("loginName").value;
 	let password = document.getElementById("loginPassword").value;
 //	var hash = md5( password );
 	
+	//Initializes the text that shows up after pressing login
 	document.getElementById("loginResult").innerHTML = "";
 
+	//Turns user's input into a JSON format for databse to understand
 	let tmp = {login:login,password:password};
 //	var tmp = {login:login,password:hash};
 	let jsonPayload = JSON.stringify( tmp );
 	
+	//sets to url 'http://fourthreethreeone.xyz/LAMPAPI/Login.php'
 	let url = urlBase + '/Login.' + extension;
 
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	
+	let xhr = new XMLHttpRequest();		//creates new request to database
+	xhr.open("POST", url, true);		//opens the request and sets the method to "POST", sets the url and synchronous flag
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");	//Sets header
 	try
 	{
-		xhr.onreadystatechange = function() 
+		xhr.onreadystatechange = function() //When request state changes
 		{
-			if (this.readyState == 4 && this.status == 200) 
+			//Check if request has been complete and response from databse has been recieved
+			if (this.readyState == 4 && this.status == 200)
 			{
-				let jsonObject = JSON.parse( xhr.responseText );
-				userId = jsonObject.id;
+				let jsonObject = JSON.parse( xhr.responseText );	//Transform response from database into JSON format
+				userId = jsonObject.id;								//Sets the user ID to the ID found in database
 		
+				//If user is not found (userId = 0 when user inputs username/password that don't match),
+				//show login result on website and end the function
 				if( userId < 1 )
 				{		
 					document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
 					return;
 				}
-		
+				
+				//Otherwise, set the firstName and lastName variables
 				firstName = jsonObject.firstName;
 				lastName = jsonObject.lastName;
 
+				//Save the logged in User's information in a cookie
 				saveCookie();
-	
+				
+				//go to main page after successful login
 				window.location.href = "color.html";
 			}
 		};
-		xhr.send(jsonPayload);
+		xhr.send(jsonPayload);	//Sends request
 	}
 	catch(err)
 	{
