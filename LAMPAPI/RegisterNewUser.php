@@ -13,8 +13,8 @@
 	} 
 	else
 	{
-		$checkIfExists_stmt = $conn->prepare("SELECT Login,Password FROM Users WHERE Login=? AND Password =?");
-        $checkIfExists_stmt->bind_param("ss", $login, $password);
+		$checkIfExists_stmt = $conn->prepare("SELECT Login,Password FROM Users WHERE Login=?");
+        $checkIfExists_stmt->bind_param("s", $login);
 		$checkIfExists_stmt->execute();
 		$result = $checkIfExists_stmt->get_result();
 
