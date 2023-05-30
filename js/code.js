@@ -7,61 +7,49 @@ let lastName = "";
 
 function doLogin()
 {
-	//Initializes variables
 	userId = 0;
 	firstName = "";
 	lastName = "";
 	
-	//Grabs values entered by user on website
 	let login = document.getElementById("loginName").value;
 	let password = document.getElementById("loginPassword").value;
 //	var hash = md5( password );
 	
-	//Initializes the text that shows up after pressing login
 	document.getElementById("loginResult").innerHTML = "";
 
-	//Turns user's input into a JSON format for databse to understand
 	let tmp = {login:login,password:password};
 //	var tmp = {login:login,password:hash};
 	let jsonPayload = JSON.stringify( tmp );
 	
-	//sets to url 'http://fourthreethreeone.xyz/LAMPAPI/Login.php'
 	let url = urlBase + '/Login.' + extension;
 
-	
-	let xhr = new XMLHttpRequest();		//creates new request to database
-	xhr.open("POST", url, true);		//opens the request and sets the method to "POST", sets the url and synchronous flag
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");	//Sets header
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try
 	{
-		xhr.onreadystatechange = function() //When request state changes
+		xhr.onreadystatechange = function() 
 		{
-			//Check if request has been complete and response from databse has been recieved
-			if (this.readyState == 4 && this.status == 200)
+			if (this.readyState == 4 && this.status == 200) 
 			{
-				let jsonObject = JSON.parse( xhr.responseText );	//Transform response from database into JSON format
-				userId = jsonObject.id;								//Sets the user ID to the ID found in database
+				let jsonObject = JSON.parse( xhr.responseText );
+				userId = jsonObject.id;
 		
-				//If user is not found (userId = 0 when user inputs username/password that don't match),
-				//show login result on website and end the function
 				if( userId < 1 )
 				{		
 					document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
 					return;
 				}
-				
-				//Otherwise, set the firstName and lastName variables
+		
 				firstName = jsonObject.firstName;
 				lastName = jsonObject.lastName;
 
-				//Save the logged in User's information in a cookie
 				saveCookie();
-				
-				//go to main page after successful login
-				window.location.href = "color.html";
+	
+				window.location.href = "contacts.html";
 			}
 		};
-		xhr.send(jsonPayload);	//Sends request
+		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
@@ -153,124 +141,151 @@ function addColor()
 
 // To enforce required fields
 function validate() {
-  'use strict'
-
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  var forms = document.querySelectorAll('.needs-validation')
-
-  // Loop over them and prevent submission
-  Array.from(forms)
-    .forEach(function (form) {
-      form.addEventListener('submit', function (event) {
-        if (!form.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
-
-        form.classList.add('was-validated')
-      }, false)
-    })
-}
-
-function registerNewUser()
-{
-	let newFirstName = document.getElementById("newFirstName").value;
-	let newLastName = document.getElementById("newLastName").value;
-	let newLogin = document.getElementById("newLogin").value;
-	let newPassword = document.getElementById("newPassword").value;
-	document.getElementById("registerResult").innerHTML = "";
- 
-  // Prevent empty credentials from being entered
-  if (newLogin == "" || newPassword == "")
-  {
-    document.getElementById("registerResult").innerHTML = "Invalid credentials";
-    return;
+	'use strict'
+  
+	// Fetch all the forms we want to apply custom Bootstrap validation styles to
+	var forms = document.querySelectorAll('.needs-validation')
+  
+	// Loop over them and prevent submission
+	Array.from(forms)
+	  .forEach(function (form) {
+		form.addEventListener('submit', function (event) {
+		  if (!form.checkValidity()) {
+			event.preventDefault()
+			event.stopPropagation()
+		  }
+  
+		  form.classList.add('was-validated')
+		}, false)
+	  })
   }
 
-	let tmp = {
-		firstName:newFirstName,
-		lastName:newLastName,
-		login:newLogin,
-		password:newPassword
-	};
-
-	let jsonPayload = JSON.stringify( tmp );
-
-	let url = urlBase + '/RegisterNewUser.' + extension;
-	
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
+  function registerNewUser()
+  {
+	  let newFirstName = document.getElementById("newFirstName").value;
+	  let newLastName = document.getElementById("newLastName").value;
+	  let newLogin = document.getElementById("newLogin").value;
+	  let newPassword = document.getElementById("newPassword").value;
+	  document.getElementById("registerResult").innerHTML = "";
+  
+	// Prevent empty credentials from being entered
+	if (newLogin == "" || newPassword == "")
 	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-        let jsonObject = JSON.parse( xhr.responseText );
-        
-        const errorString = "User already exists";
-        let result = errorString.localeCompare(jsonObject.error);
-       
-        if (result == 1) 
-        {
-          document.getElementById("registerResult").innerHTML = "User already exists";
-          return;
-        }
-        
-        // I'm not sure how to make this play nice with the required field process
-				document.getElementById("registerResult").innerHTML = "New User has been registered!";
-			}
-		};
-		xhr.send(jsonPayload);
+	  document.getElementById("registerResult").innerHTML = "Invalid credentials";
+	  return;
 	}
-	catch (err)
-	{
-		document.getElementById("registerResult").innerHTML = err.message;
-	}
-}
+  
+	  let tmp = {
+		  firstName:newFirstName,
+		  lastName:newLastName,
+		  login:newLogin,
+		  password:newPassword
+	  };
+  
+	  let jsonPayload = JSON.stringify( tmp );
+	  let url = urlBase + '/RegisterNewUser.' + extension;
+	  
+	  let xhr = new XMLHttpRequest();
+	  xhr.open("POST", url, true);
+	  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	  try
+	  {
+		  xhr.onreadystatechange = function() 
+		  {
+			  if (this.readyState == 4 && this.status == 200) 
+			  {
+		  let jsonObject = JSON.parse( xhr.responseText );
+  
+		  const errorString = "User already exists";
+		  let result = errorString.localeCompare(jsonObject.error);
+  
+		  if (result == 1) 
+		  {
+			document.getElementById("registerResult").innerHTML = "User already exists";
+			return;
+		  }
+  
+		  // I'm not sure how to make this play nice with the required field process
+				  document.getElementById("registerResult").innerHTML = "New User has been registered!";
+			  }
+		  };
+		  xhr.send(jsonPayload);
+	  }
+	  catch (err)
+	  {
+		  document.getElementById("registerResult").innerHTML = err.message;
+	  }
+  
+  }
 
-function searchColor()
+function searchContacts()
 {
-	let srch = document.getElementById("searchText").value;
-	document.getElementById("colorSearchResult").innerHTML = "";
-	
-	let colorList = "";
+	readCookie();
 
-	let tmp = {search:srch,userId:userId};
+	let srch = document.getElementById("searchText").value;
+	document.getElementById("accordionExample").innerHTML = "";
+	
+	let contactsList = "";
+
+	let tmp = {userId:userId, search:srch};
 	let jsonPayload = JSON.stringify( tmp );
 
-	let url = urlBase + '/SearchColors.' + extension;
+	let url = urlBase + '/SearchContact.' + extension;
 	
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
 	try
 	{
 		xhr.onreadystatechange = function() 
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
-				document.getElementById("colorSearchResult").innerHTML = "Color(s) has been retrieved";
-				let jsonObject = JSON.parse( xhr.responseText );
-				
+				let jsonObject = JSON.parse( xhr.responseText );				
+
+				let j = 0;
+
 				for( let i=0; i<jsonObject.results.length; i++ )
-				{
-					colorList += jsonObject.results[i];
+				{   
+			/*		
+					contactsList += jsonObject.results[i];
 					if( i < jsonObject.results.length - 1 )
 					{
-						colorList += "<br />\r\n";
+						contactsList += "<br />\r\n";
 					}
+			*/	
+					j = i+1;
+
+					var div = document.createElement("div");
+   					div.innerHTML = 
+   					"<div class='accordion-item'>" +
+    					"<h2 class='accordion-header' id='heading" + j + "'>"+
+    					  	"<button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#collapse" + j + "' aria-expanded='false' aria-controls='collapse" + j + "'>"+
+        						jsonObject.results[i].FirstName + " " + jsonObject.results[i].LastName+
+      						"</button>"+
+    					"</h2>"+
+   						"<div id='collapse" + j + "' class='accordion-collapse collapse show' aria-labelledby='heading" + j + "' data-bs-parent='#accordionExample'>"+
+      						"<div class='accordion-body' style='font-size:15px; background-color: #eee;'>"+
+        						jsonObject.results[i].Phone + " " + jsonObject.results[i].Email +
+        						"&nbsp&nbsp&nbsp<button type='button' class='editbutton'> Edit </button>"+
+        						"&nbsp&nbsp&nbsp<button type='button' class='deletebutton'> Delete </button>"+
+     						"</div>"+
+    					"</div>"+
+  					"</div>";
+    				document.getElementById("accordionExample").appendChild(div);
+					
 				}
-				
-				document.getElementsByTagName("p")[0].innerHTML = colorList;
+
+				///document.getElementsByTagName("p")[0].innerHTML = contactsList;
 			}
 		};
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
-		document.getElementById("colorSearchResult").innerHTML = err.message;
+		document.getElementById("searchResults").innerHTML = err.message;
+		window.alert("error catch");
 	}
-	
+
 }
