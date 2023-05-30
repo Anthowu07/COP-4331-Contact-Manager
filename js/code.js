@@ -123,29 +123,29 @@ function addColor() {
   }
 }
 
-// To enforce required fields
-function validate() {
-  "use strict";
+// // To enforce required fields
+// function validate() {
+//   "use strict";
 
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  var forms = document.querySelectorAll(".needs-validation");
+//   // Fetch all the forms we want to apply custom Bootstrap validation styles to
+//   var forms = document.querySelectorAll(".needs-validation");
 
-  // Loop over them and prevent submission
-  Array.from(forms).forEach(function (form) {
-    form.addEventListener(
-      "submit",
-      function (event) {
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
+//   // Loop over them and prevent submission
+//   Array.from(forms).forEach(function (form) {
+//     form.addEventListener(
+//       "submit",
+//       function (event) {
+//         if (!form.checkValidity()) {
+//           event.preventDefault();
+//           event.stopPropagation();
+//         }
 
-        form.classList.add("was-validated");
-      },
-      false
-    );
-  });
-}
+//         form.classList.add("was-validated");
+//       },
+//       false
+//     );
+//   });
+// }
 
 function registerNewUser() {
   let newFirstName = document.getElementById("newFirstName").value;
@@ -162,7 +162,7 @@ function registerNewUser() {
     newLastName == ""
   ) {
     document.getElementById("registerResult").innerHTML =
-      "Error, one or more fields are empty.";
+      "Error, one or more fields are empty";
     return;
   } else {
     var regex = /(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,32}/;
