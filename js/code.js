@@ -151,6 +151,27 @@ function addColor()
 	
 }
 
+// To enforce required fields
+function validate() {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.from(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+}
+
 function registerNewUser()
 {
 	let newFirstName = document.getElementById("newFirstName").value;
@@ -158,12 +179,19 @@ function registerNewUser()
 	let newLogin = document.getElementById("newLogin").value;
 	let newPassword = document.getElementById("newPassword").value;
 	document.getElementById("registerResult").innerHTML = "";
+ 
+  // Prevent empty credentials from being entered
+  if (newLogin == "" || newPassword == "")
+  {
+    document.getElementById("registerResult").innerHTML = "Invalid credentials";
+    return;
+  }
 
 	let tmp = {
 		firstName:newFirstName,
 		lastName:newLastName,
 		login:newLogin,
-		password,newPassword
+		password:newPassword
 	};
 
 	let jsonPayload = JSON.stringify( tmp );
@@ -179,16 +207,27 @@ function registerNewUser()
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
+        let jsonObject = JSON.parse( xhr.responseText );
+        
+        const errorString = "User already exists";
+        let result = errorString.localeCompare(jsonObject.error);
+       
+        if (result == 1) 
+        {
+          document.getElementById("registerResult").innerHTML = "User already exists";
+          return;
+        }
+        
+        // I'm not sure how to make this play nice with the required field process
 				document.getElementById("registerResult").innerHTML = "New User has been registered!";
 			}
 		};
 		xhr.send(jsonPayload);
 	}
-	catch(err)
+	catch (err)
 	{
 		document.getElementById("registerResult").innerHTML = err.message;
 	}
-	
 }
 
 function searchColor()
