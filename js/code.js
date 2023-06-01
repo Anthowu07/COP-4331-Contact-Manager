@@ -312,6 +312,9 @@ function addContact() {
   //Clear fields once contact has been added
   var allInputs = document.querySelectorAll("input");
   allInputs.forEach((singleInput) => (singleInput.value = ""));
+  xhr.onload = function () {
+    searchContacts();
+  };
 }
 
 function editContact(contactID, placeOnPage) {
@@ -351,6 +354,9 @@ function editContact(contactID, placeOnPage) {
     "</div>" +
     "<br />";
   document.getElementById("editContact").appendChild(div);
+  xhr.onload = function () {
+    searchContacts();
+  };
 }
 
 function saveEdit(contactID) {
@@ -388,7 +394,9 @@ function saveEdit(contactID) {
 
   document.getElementById("editContact").innerHTML = "";
 
-  searchContacts();
+  xhr.onload = function () {
+    searchContacts();
+  };
 }
 
 function deleteContact(contactID) {
@@ -416,5 +424,7 @@ function deleteContact(contactID) {
 
   document.getElementById("editContact").innerHTML = "";
 
-  searchContacts();
+  xhr.onload = function () {
+    searchContacts();
+  };
 }
