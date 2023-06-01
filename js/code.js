@@ -14,7 +14,7 @@ function doLogin() {
   let password = document.getElementById("loginPassword").value;
   //	var hash = md5( password );
 
-  document.getElementById("loginResult").innerHTML = "";
+  document.getElementById("loginResult").inneorHTML = "";
 
   let tmp = { login: login, password: password };
   //	var tmp = {login:login,password:hash};
@@ -202,7 +202,6 @@ function searchContacts() {
         let jsonObject = JSON.parse(xhr.responseText);
 
         let j = 0;
-
         for (let i = 0; i < jsonObject.results.length; i++) {
           /*		
 					contactsList += jsonObject.results[i];
@@ -239,7 +238,7 @@ function searchContacts() {
             "</h2>" +
             "<div id='collapse" +
             j +
-            "' class='accordion-collapse collapse show' aria-labelledby='heading" +
+            "' class='accordion-collapse collapse' aria-labelledby='heading" +
             j +
             "' data-bs-parent='#accordionExample'>" +
             "<div class='accordion-body' style='font-size:15px; background-color: #eee;'>" +
