@@ -59,7 +59,7 @@
                         "lastName":"' . $lastName . '",
                         "login":"' . $login . '",
                         "password":"' . $password . '",
-                        "error":""}';
+                        "error":"New User has been registered!"}';
 		sendResultInfoAsJson( $retValue );
 	}
 	

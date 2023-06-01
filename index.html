@@ -162,9 +162,12 @@
 
             <!-- Password Requirements -->
             <div id="message">
-              <h3>Password must contain the following:</h3>
+              <h6>Password must contain the following:</h6>
               <p id="letter" class="invalid">A <b>letter</b></p>
               <p id="number" class="invalid">A <b>number</b></p>
+              <p id="symbol" class="invalid">
+                A <b>special character</b> (!#$%&)
+              </p>
               <p id="length" class="invalid">Minimum <b>8 characters</b></p>
             </div>
 
@@ -180,6 +183,7 @@
       var input = document.getElementById("newPassword");
       var letter = document.getElementById("letter");
       var number = document.getElementById("number");
+      var symbol = document.getElementById("symbol");
       var length = document.getElementById("length");
 
       // When the user clicks on the password field, show the message box
@@ -195,8 +199,8 @@
       // When the user starts to type something inside the password field
       input.onkeyup = function () {
         // Validate lowercase letters
-        var lowerCaseLetters = /[a-zA-Z]/g;
-        if (input.value.match(lowerCaseLetters)) {
+        var letters = /[a-zA-Z]/g;
+        if (input.value.match(letters)) {
           letter.classList.remove("invalid");
           letter.classList.add("valid");
         } else {
@@ -212,6 +216,16 @@
         } else {
           number.classList.remove("valid");
           number.classList.add("invalid");
+        }
+
+        // Validate special character
+        var symbols = /[!@#$%^&*]/g;
+        if (input.value.match(symbols)) {
+          symbol.classList.remove("invalid");
+          symbol.classList.add("valid");
+        } else {
+          symbol.classList.remove("valid");
+          symbol.classList.add("invalid");
         }
 
         // Validate length

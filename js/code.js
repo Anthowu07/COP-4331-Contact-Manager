@@ -165,7 +165,7 @@ function registerNewUser() {
       "Error, one or more fields are empty";
     return;
   } else {
-    var regex = /(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,32}/;
+    var regex = /(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,}/;
 
     if (regex.test(newPassword) == false) {
       document.getElementById("registerResult").innerHTML =
@@ -193,18 +193,8 @@ function registerNewUser() {
       if (this.readyState == 4 && this.status == 200) {
         let jsonObject = JSON.parse(xhr.responseText);
 
-        const errorString = "User already exists";
-        let result = errorString.localeCompare(jsonObject.error);
-
-        if (result == 1) {
-          document.getElementById("registerResult").innerHTML =
-            "User already exists";
-          return;
-        }
-
-        // I'm not sure how to make this play nice with the required field process
-        document.getElementById("registerResult").innerHTML =
-          "New User has been registered!";
+        document.getElementById("registerResult").innerHTML = jsonObject.error;
+        return;
       }
     };
     xhr.send(jsonPayload);
@@ -218,6 +208,7 @@ function searchContacts() {
 
   let srch = document.getElementById("searchText").value;
   document.getElementById("accordionExample").innerHTML = "";
+  document.getElementById("editContact").innerHTML = "";
 
   let contactsList = "";
 
@@ -258,9 +249,17 @@ function searchContacts() {
             "' aria-expanded='false' aria-controls='collapse" +
             j +
             "'>" +
+            "<span id = listFname" +
+            i +
+            ">" +
             jsonObject.results[i].FirstName +
-            " " +
+            "</span> " +
+            "<p> &nbsp</p>" +
+            "<span id = listLname" +
+            i +
+            ">" +
             jsonObject.results[i].LastName +
+            "</span> " +
             "</button>" +
             "</h2>" +
             "<div id='collapse" +
@@ -269,23 +268,139 @@ function searchContacts() {
             j +
             "' data-bs-parent='#accordionExample'>" +
             "<div class='accordion-body' style='font-size:15px; background-color: #eee;'>" +
+            "<span id = listPhone" +
+            i +
+            ">" +
             jsonObject.results[i].Phone +
+            "</span> " +
             " " +
+            "<span id = listEmail" +
+            i +
+            ">" +
             jsonObject.results[i].Email +
-            "&nbsp&nbsp&nbsp<button type='button' class='editbutton'> Edit </button>" +
-            "&nbsp&nbsp&nbsp<button type='button' class='deletebutton'> Delete </button>" +
+            "</span> " +
+            "&nbsp&nbsp&nbsp<button type='button' class='editbutton' onclick='editContact(" +
+            jsonObject.results[i].ID +
+            "," +
+            i +
+            ");'> Edit </button>" +
+            "&nbsp&nbsp&nbsp<button type='button' class='deletebutton' onclick='deleteContact(" +
+            jsonObject.results[i].ID +
+            ");'> Delete </button>" +
             "</div>" +
             "</div>" +
             "</div>";
           document.getElementById("accordionExample").appendChild(div);
         }
-
-        ///document.getElementsByTagName("p")[0].innerHTML = contactsList;
       }
     };
     xhr.send(jsonPayload);
   } catch (err) {
     document.getElementById("searchResults").innerHTML = err.message;
-    window.alert("error catch");
   }
+}
+
+function editContact(contactID, placeOnPage) {
+  document.getElementById("editContact").innerHTML = "";
+
+  var div = document.createElement("div");
+  div.innerHTML =
+    "<h2> Edit Menu </h2>" +
+    "<div class='row'>" +
+    "<div class = 'col-sm-6'>" +
+    "<input type='text' id='editFNameInput' value='" +
+    document.getElementById("listFname" + placeOnPage).textContent +
+    "'>" +
+    "</div>" +
+    "<div class = 'col-sm-6'>" +
+    "<input type='text' id='editLNameInput' value='" +
+    document.getElementById("listLname" + placeOnPage).textContent +
+    "'>" +
+    "</div>" +
+    "</div>" +
+    "<div class='row'>" +
+    "<div class = 'col-sm-6'>" +
+    "<input type='text' id='editEmailInput' value='" +
+    document.getElementById("listEmail" + placeOnPage).textContent +
+    "'>" +
+    "</div>" +
+    "<div class = 'col-sm-4'>" +
+    "<input type='text' id='editPhoneInput' value='" +
+    document.getElementById("listPhone" + placeOnPage).textContent +
+    "'>" +
+    "</div>" +
+    "<div class='col-sm-2'>" +
+    "<button type='button' id='saveButton' class='buttons' onclick='saveEdit(" +
+    contactID +
+    ");'> Save</button>" +
+    "</div>" +
+    "</div>" +
+    "<br />";
+  document.getElementById("editContact").appendChild(div);
+}
+
+function saveEdit(contactID) {
+  userId = 0;
+
+  readCookie();
+
+  let fname = document.getElementById("editFNameInput").value;
+  let lname = document.getElementById("editLNameInput").value;
+  let contactemail = document.getElementById("editEmailInput").value;
+  let contactphone = document.getElementById("editPhoneInput").value;
+
+  let tmp = {
+    firstName: fname,
+    lastName: lname,
+    email: contactemail,
+    phone: contactphone,
+    userId: userId,
+    id: contactID,
+  };
+
+  let jsonPayload = JSON.stringify(tmp);
+
+  let url = urlBase + "/EditContact." + extension;
+
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+  try {
+    xhr.send(jsonPayload);
+  } catch (err) {
+    document.getElementById("editContact").innerHTML = err.message;
+  }
+
+  document.getElementById("editContact").innerHTML = "";
+
+  searchContacts();
+}
+
+function deleteContact(contactID) {
+  userId = 0;
+  readCookie();
+
+  let tmp = {
+    userId: userId,
+    id: contactID,
+  };
+
+  let jsonPayload = JSON.stringify(tmp);
+
+  let url = urlBase + "/DeleteContact." + extension;
+
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+  try {
+    xhr.send(jsonPayload);
+  } catch (err) {
+    document.getElementById("editContact").innerHTML = err.message;
+  }
+
+  document.getElementById("editContact").innerHTML = "";
+
+  searchContacts();
 }
