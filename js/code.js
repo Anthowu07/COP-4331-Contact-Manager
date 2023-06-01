@@ -98,31 +98,6 @@ function doLogout() {
   window.location.href = "index.html";
 }
 
-function addColor() {
-  let newColor = document.getElementById("colorText").value;
-  document.getElementById("colorAddResult").innerHTML = "";
-
-  let tmp = { color: newColor, userId, userId };
-  let jsonPayload = JSON.stringify(tmp);
-
-  let url = urlBase + "/AddColor." + extension;
-
-  let xhr = new XMLHttpRequest();
-  xhr.open("POST", url, true);
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-  try {
-    xhr.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("colorAddResult").innerHTML =
-          "Color has been added";
-      }
-    };
-    xhr.send(jsonPayload);
-  } catch (err) {
-    document.getElementById("colorAddResult").innerHTML = err.message;
-  }
-}
-
 // // To enforce required fields
 // function validate() {
 //   "use strict";
@@ -298,6 +273,46 @@ function searchContacts() {
   } catch (err) {
     document.getElementById("searchResults").innerHTML = err.message;
   }
+}
+
+function addContact() {
+  readCookie();
+
+  let fname = document.getElementById("FnameInput").value;
+  let lname = document.getElementById("LnameInput").value;
+  let contactemail = document.getElementById("EmailInput").value;
+  let contactphone = document.getElementById("NumberInput").value;
+
+  let tmp = {
+    firstName: fname,
+    lastName: lname,
+    email: contactemail,
+    phone: contactphone,
+    userId: userId,
+  };
+
+  let jsonPayload = JSON.stringify(tmp);
+
+  let url = urlBase + "/AddContact." + extension;
+
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  try {
+    xhr.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("contactAddResult").innerHTML =
+          "Contact has been added";
+      }
+    };
+    xhr.send(jsonPayload);
+  } catch (err) {
+    document.getElementById("contactAddResult").innerHTML = err.message;
+  }
+
+  //Clear fields once contact has been added
+  var allInputs = document.querySelectorAll("input");
+  allInputs.forEach((singleInput) => (singleInput.value = ""));
 }
 
 function editContact(contactID, placeOnPage) {
