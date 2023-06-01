@@ -1,11 +1,14 @@
+@import "node_modules/bootstrap/scss/bootstrap";
+
 body {
-  background-color: #707070;
+  background-color: #007788;
 }
 
 #title {
   font-size: 40px;
   width: 100%;
-  margin: 2% 5%;
+  margin-top: 2%;
+  margin-bottom: 2%;
   text-align: center;
   font-family: "Ubuntu", sans-serif;
   color: #ffffff;
@@ -13,18 +16,24 @@ body {
 
 #loginDiv {
   font-size: 30px;
-  width: 70%;
-  margin-left: 15%;
   padding: 25px;
-  background-color: #b2b2b2;
+  background-color: #c4f4d7;
+  border-radius: 5px;
+}
+
+#textDiv {
+  color: black;
+}
+
+#mainDiv {
+  padding: 20px;
 }
 
 #loggedInDiv {
-  font-size: 30px;
+  font-size: 20px;
   width: 70%;
   margin-left: 15%;
   padding: 25px;
-  background-color: #b2b2b2;
 }
 
 #accessUIDiv {
@@ -32,21 +41,44 @@ body {
   width: 70%;
   margin-left: 15%;
   padding: 25px;
-  background-color: #b2b2b2;
+  background-color: #c4f4d7;
 }
 
 .buttons {
   font-size: 30px;
-  border-radius: 25px;
-  width: 50%;
-  margin-left: 25%;
+  border-radius: 5px;
+  width: 100%;
   font-family: "Ubuntu", sans-serif;
+  background-color: #21ada8;
+  border-width: 1px;
 }
 
 .buttons:hover {
-  background-color: #00d5124f;
-  color: #ffffff;
-  opacity: 50%;
+  background-color: #21ada8;
+  color: #000000;
+  opacity: 70%;
+}
+
+.editbutton {
+}
+
+.editbutton:hover {
+  background-color: #ccc;
+}
+
+.editbutton:active {
+  background-color: #aaa;
+}
+
+.deletebutton {
+}
+
+.deletebutton:hover {
+  background-color: #fcc;
+}
+
+.deletebutton:active {
+  background-color: #aaa;
 }
 
 #loginName {
@@ -64,12 +96,11 @@ body {
 
 input[type="text"],
 input[type="password"] {
-  border-radius: 25px;
+  border-radius: 5px;
   text-align: center;
-  width: 80%;
-  margin-left: 10%;
-  margin-bottom: 2%;
+  width: 100%;
   font-family: "Ubuntu", sans-serif;
+  border-width: 1px;
 }
 
 #inner-title {
@@ -80,7 +111,7 @@ input[type="password"] {
   margin-left: 5%;
   margin-bottom: 2%;
   font-family: "Ubuntu", sans-serif;
-  color: #95060a;
+  color: #007788;
 }
 
 #loginResult {
