@@ -215,30 +215,15 @@ function searchContacts() {
           var div = document.createElement("div");
           div.innerHTML =
             "<div class='accordion-item'>" +
-            "<h2 class='accordion-header' id='heading" +
-            j +
-            "'>" +
-            "<button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#collapse" +
-            j +
-            "' aria-expanded='false' aria-controls='collapse" +
-            j +
-            "'>" +
-            "<span id = listFname" +
-            i +
-            ">" +
-            jsonObject.results[i].FirstName +
-            "</span> " +
+            "<h2 class='accordion-header' id='heading" + j +"'>" +
+            "<button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#collapse" + j +
+            "' aria-expanded='false' aria-controls='collapse" + j + "'>" +
+            "<span id = listFname" +i +">" +jsonObject.results[i].FirstName +"</span> " +
             "<p> &nbsp</p>" +
-            "<span id = listLname" +
-            i +
-            ">" +
-            jsonObject.results[i].LastName +
-            "</span> " +
+            "<span id = listLname" + i + ">" +jsonObject.results[i].LastName +"</span> " +
             "</button>" +
             "</h2>" +
-            "<div id='collapse" +
-            j +
-            "' class='accordion-collapse collapse' aria-labelledby='heading" +
+            "<div id='collapse" + j +"' class='accordion-collapse collapse' aria-labelledby='heading" +
             j +
             "' data-bs-parent='#accordionExample'>" +
             "<div class='accordion-body' style='font-size:15px; background-color: #eee;'>" +
@@ -400,6 +385,11 @@ function saveEdit(contactID) {
 }
 
 function deleteContact(contactID) {
+
+  if (confirm("Are you sure you want to delete this contact?") == false)
+  {
+    return;
+  }
   userId = 0;
   readCookie();
 
