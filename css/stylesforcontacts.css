@@ -14,6 +14,14 @@ body {
   color: #3b71ca;
 }
 
+#logo {
+  width: 40%;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #loginDiv {
   font-size: 30px;
   padding: 25px;
@@ -71,14 +79,19 @@ body {
 }
 
 .deletebutton {
+  background-color: #fcc;
 }
 
 .deletebutton:hover {
-  background-color: #fcc;
+  background-color: #f88;
 }
 
 .deletebutton:active {
   background-color: #aaa;
+}
+
+.acbuttons {
+  float:right;
 }
 
 #loginName {
@@ -161,14 +174,6 @@ select {
   display: none;
 }
 
-#colorAddResult {
-  display: inline-block;
-  font-size: 0.8em;
-  width: 90%;
-  text-align: center;
-  margin-left: 5%;
-  margin-top: 2%;
-  margin-bottom: 1%;
-  font-family: var(--bs-font-sans-serif);
-  color: #95060a;
+#contactAddResult {
+  font-size: 15px;
 }
