@@ -268,6 +268,32 @@ function addContact() {
   let lname = document.getElementById("LnameInput").value;
   let contactemail = document.getElementById("EmailInput").value;
   let contactphone = document.getElementById("NumberInput").value;
+	
+  // Verifies that the information is valid format
+  if (
+    fname == "" ||
+    lname == "" ||
+    contactemail == "" ||
+    contactphone == ""
+  ) {
+    document.getElementById("contactAddResult").innerHTML =
+          "Error, one or more fields are empty";
+          return;
+  }
+
+  if (!(/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/.test(contactphone)))
+  {
+    document.getElementById("contactAddResult").innerHTML =
+          "Error, phone number is not a valid format";
+          return;
+  }
+
+  if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(contactemail)))
+  {
+    document.getElementById("contactAddResult").innerHTML =
+          "Error, email is not a valid format";
+          return;
+  }
 
   let tmp = {
     firstName: fname,
@@ -309,7 +335,7 @@ function editContact(contactID, placeOnPage) {
 
   var div = document.createElement("div");
   div.innerHTML =
-    "<h2> Edit Menu </h2>" +
+    "<h4> Edit Menu </h4>" +
     "<div class='row'>" +
     "<div class = 'col-sm-6'>" +
     "<input type='text' id='editFNameInput' value='" +
@@ -338,8 +364,7 @@ function editContact(contactID, placeOnPage) {
     contactID +
     ");'> Save</button>" +
     "</div>" +
-    "</div>" +
-    "<br />";
+    "</div>";
   document.getElementById("editContact").appendChild(div);
   window.scrollTo(0, 0);
   xhr.onload = function () {
@@ -356,6 +381,32 @@ function saveEdit(contactID) {
   let lname = document.getElementById("editLNameInput").value;
   let contactemail = document.getElementById("editEmailInput").value;
   let contactphone = document.getElementById("editPhoneInput").value;
+	
+  // Verifies that the information is valid format
+  if (
+    fname == "" ||
+    lname == "" ||
+    contactemail == "" ||
+    contactphone == ""
+  ) {
+    document.getElementById("contactEditResult").innerHTML =
+          "Error, one or more fields are empty" + "<br>";
+          return;
+  }
+
+  if (!(/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/.test(contactphone)))
+  {
+    document.getElementById("contactEditResult").innerHTML =
+          "Error, phone number is not a valid format" + "<br>";
+          return;
+  }
+
+  if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(contactemail)))
+  {
+    document.getElementById("contactEditResult").innerHTML =
+          "Error, email is not a valid format" + "<br>";
+          return;
+  }
 
   let tmp = {
     firstName: fname,
@@ -381,6 +432,7 @@ function saveEdit(contactID) {
   }
 
   document.getElementById("editContact").innerHTML = "";
+  document.getElementById("contactEditResult").innerHTML = "";
 
   xhr.onload = function () {
     searchContacts();
