@@ -107,14 +107,13 @@ body {
   font-size: 30px;
 }
 
-input[type="text"],
-input[type="password"] {
+input[type="text"] {
   border-radius: 5px;
   text-align: center;
   width: 100%;
   font-family: var(--bs-font-sans-serif);
   border-width: 1px;
-  border-color: #777;
+  border-color: #cccccc;
   margin-bottom: 2px;
 }
 
@@ -174,6 +173,7 @@ select {
   display: none;
 }
 
-#contactAddResult {
+#contactAddResult, #contactEditResult {
   font-size: 15px;
+  color: #ff0000;
 }
