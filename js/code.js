@@ -238,6 +238,7 @@ function searchContacts() {
             ">" +
             jsonObject.results[i].Email +
             "</span> " +
+            "<span class = 'acbuttons'>" +
             "&nbsp&nbsp&nbsp<button type='button' class='editbutton' onclick='editContact(" +
             jsonObject.results[i].ID +
             "," +
@@ -246,6 +247,7 @@ function searchContacts() {
             "&nbsp&nbsp&nbsp<button type='button' class='deletebutton' onclick='deleteContact(" +
             jsonObject.results[i].ID +
             ");'> Delete </button>" +
+            "</span>" +
             "</div>" +
             "</div>" +
             "</div>";
@@ -266,32 +268,6 @@ function addContact() {
   let lname = document.getElementById("LnameInput").value;
   let contactemail = document.getElementById("EmailInput").value;
   let contactphone = document.getElementById("NumberInput").value;
-	
-  // Verifies that the information is valid format
-  if (
-    fname == "" ||
-    lname == "" ||
-    contactemail == "" ||
-    contactphone == ""
-  ) {
-    document.getElementById("contactAddResult").innerHTML =
-          "Error, one or more fields are empty";
-          return;
-  }
-
-  if (!(/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/.test(contactphone)))
-  {
-    document.getElementById("contactAddResult").innerHTML =
-          "Error, phone number is not a valid format";
-          return;
-  }
-
-  if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(contactemail)))
-  {
-    document.getElementById("contactAddResult").innerHTML =
-          "Error, email is not a valid format";
-          return;
-  }
 
   let tmp = {
     firstName: fname,
@@ -365,6 +341,7 @@ function editContact(contactID, placeOnPage) {
     "</div>" +
     "<br />";
   document.getElementById("editContact").appendChild(div);
+  window.scrollTo(0, 0);
   xhr.onload = function () {
     searchContacts();
   };
@@ -379,32 +356,6 @@ function saveEdit(contactID) {
   let lname = document.getElementById("editLNameInput").value;
   let contactemail = document.getElementById("editEmailInput").value;
   let contactphone = document.getElementById("editPhoneInput").value;
-	
-  // Verifies that the information is valid format
-  if (
-    fname == "" ||
-    lname == "" ||
-    contactemail == "" ||
-    contactphone == ""
-  ) {
-    document.getElementById("contactAddResult").innerHTML =
-          "Error, one or more fields are empty";
-          return;
-  }
-
-  if (!(/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/.test(contactphone)))
-  {
-    document.getElementById("contactAddResult").innerHTML =
-          "Error, phone number is not a valid format";
-          return;
-  }
-
-  if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(contactemail)))
-  {
-    document.getElementById("contactAddResult").innerHTML =
-          "Error, email is not a valid format";
-          return;
-  }
 
   let tmp = {
     firstName: fname,
