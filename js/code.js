@@ -178,6 +178,18 @@ function registerNewUser() {
   }
 }
 
+function compare(a,b) {
+  const nameA = a.FirstName.toUpperCase(); 
+  const nameB = b.FirstName.toUpperCase(); 
+  if (nameA > nameB) {
+    return 1;
+  }
+  if (nameA < nameB) {
+    return -1;
+  }
+  return 0;
+}
+
 function searchContacts() {
   readCookie();
 
@@ -200,6 +212,8 @@ function searchContacts() {
     xhr.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         let jsonObject = JSON.parse(xhr.responseText);
+
+        jsonObject.results.sort(compare);
 
         let j = 0;
         for (let i = 0; i < jsonObject.results.length; i++) {
@@ -232,7 +246,7 @@ function searchContacts() {
             ">" +
             jsonObject.results[i].Phone +
             "</span> " +
-            " " +
+            "&nbsp &nbsp &nbsp &nbsp" +
             "<span id = listEmail" +
             i +
             ">" +
@@ -284,7 +298,7 @@ function addContact() {
   if (!(/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/.test(contactphone)))
   {
     document.getElementById("contactAddResult").innerHTML =
-          "Error, phone number is not a valid format";
+          "Error, phone number must be in format XXX-XXX-XXXX";
           return;
   }
 
@@ -314,7 +328,7 @@ function addContact() {
     xhr.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         document.getElementById("contactAddResult").innerHTML =
-          "Contact has been added";
+          "<span style='color:#000000;'>"+ "Contact has been added" + "</span>";
       }
     };
     xhr.send(jsonPayload);
@@ -397,7 +411,7 @@ function saveEdit(contactID) {
   if (!(/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/.test(contactphone)))
   {
     document.getElementById("contactEditResult").innerHTML =
-          "Error, phone number is not a valid format" + "<br>";
+          "Error, phone number must be in format XXX-XXX-XXXX" + "<br>";
           return;
   }
 
