@@ -15,7 +15,7 @@ body {
 }
 
 #logo {
-  width: 40%;
+  width: 35%;
   height: auto;
   display: block;
   margin-left: auto;
@@ -176,4 +176,10 @@ select {
 #contactAddResult, #contactEditResult {
   font-size: 15px;
   color: #ff0000;
+}
+
+@media only screen and (max-width:768px){
+.acbuttons {
+  float:none;
+}  
 }
