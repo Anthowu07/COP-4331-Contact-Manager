@@ -213,17 +213,18 @@ function searchContacts() {
       if (this.readyState == 4 && this.status == 200) {
         let jsonObject = JSON.parse(xhr.responseText);
 
+        if (jsonObject.id == 0)
+        {
+          document.getElementById("accordionExample").innerHTML = "<p id='nocontacts'>No contacts found</p>";
+          return;
+        }
+
+
         jsonObject.results.sort(compare);
 
         let j = 0;
-        for (let i = 0; i < jsonObject.results.length; i++) {
-          /*		
-					contactsList += jsonObject.results[i];
-					if( i < jsonObject.results.length - 1 )
-					{
-						contactsList += "<br />\r\n";
-					}
-			*/
+        let i = 0;
+        for (i = 0; i < jsonObject.results.length; i++) {
           j = i + 1;
 
           var div = document.createElement("div");
@@ -267,6 +268,8 @@ function searchContacts() {
             "</div>";
           document.getElementById("accordionExample").appendChild(div);
         }
+
+        
       }
     };
     xhr.send(jsonPayload);
