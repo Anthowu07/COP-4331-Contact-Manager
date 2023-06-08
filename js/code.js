@@ -499,5 +499,5 @@ function swarmfish() {
   const element = document.getElementById("fishswarm");
   
 
-  setTimeout(() => { element.remove();  }, 2300);
+  setTimeout(() => { element.remove();  }, 2500);
 }
