@@ -19,6 +19,10 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
+    
+    <link href="css/mdb.min.css" rel="stylesheet" />
+    <script src="js/mdb.min.js"></script>
+
     <link rel="icon" href="images/fishicon.png">
 
   <script type="text/javascript">
@@ -28,62 +32,123 @@
 	}, false);
 	</script>
   </head>
+
   <body style = "background-color: #ffffff;">
+
     <img src="images/logo.png" alt="Contact Manager" id = "logo">
 
-    <div id="accessUIDiv">
-      <div class="row">
-        <div class="col-sm-9">
-          <input type="text" id="searchText" placeholder="Search Contacts"/>
-        </div>
-        <div class="col-sm-3">
-          <button
-            type="button"
-            id="searchColorButton"
-            class="buttons"
-            onclick="searchContacts();"
+    <!-- Pills navs -->
+    <div class="container py-3 my-3 w-75 p-3">
+      <ul class="nav nav-pills nav-justified mb-3" id="ex2" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a
+            class="nav-link active"
+            id="tab-search"
+            data-mdb-toggle="pill"
+            href="#pills-search"
+            role="tab"
+            aria-selected="true"
+            >Search Contact</a
           >
-            SEARCH
-          </button>
-        </div>
-      </div>
-
-
-      <div id="editContact"></div>
-      <div id="contactEditResult"></div>
-
-      <div class="accordion" id="accordionExample"></div>
-
-      <br />
-
-      <h4>Add a Contact</h4>
-      <div class="row">
-        <div class="col-sm-6">
-          <input type="text" id="FnameInput" placeholder="First Name" />
-        </div>
-        <div class="col-sm-6">
-          <input type="text" id="LnameInput" placeholder="Last Name" />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-6">
-          <input type="text" id="EmailInput" placeholder="Email" />
-        </div>
-        <div class="col-sm-4">
-          <input type="text" id="NumberInput" placeholder="Phone Number" />
-        </div>
-        <div class="col-sm-2">
-          <button
-            type="button"
-            id="addColorButton"
-            class="buttons"
-            onclick="addContact();"
+        </li>
+        <li class="nav-item" role="presentation">
+          <a
+            class="nav-link"
+            id="tab-add"
+            data-mdb-toggle="pill"
+            href="#pills-add"
+            role="tab"
+            aria-selected="false"
+            >Add Contact</a
           >
-            ADD
-          </button>
+        </li>
+      </ul>
+    </div>
+    
+    <!-- Pills content -->
+    <div class="tab-content">
+      <!-- Pills search -->
+      <div
+        class="tab-pane fade show active"
+        id="pills-search"
+        role="tabpanel"
+        aria-labelledby="tab-search"
+      >
+        <div id="accessUIDiv">
+          <div class="row">
+            <div class="col-sm-9">
+              <input type="text" id="searchText" placeholder="Search Contacts"/>
+            </div>
+            <div class="col-sm-3">
+              <button
+                type="button"
+                id="searchColorButton"
+                class="buttons"
+                onclick="searchContacts();"
+              >
+                Search
+              </button>
+            </div>
+          </div>
+    
+    
+          <div id="editContact"></div>
+          <div id="contactEditResult"></div>
+    
+          <div class="accordion" id="accordionExample"></div>
+    
         </div>
       </div>
-      <span id="contactAddResult"></span>
+    
+    
+      <!-- Pills add -->
+      <div
+        class="tab-pane fade"
+        id="pills-add"
+        role="tabpanel"
+        aria-labelledby="tab-add"
+      >
+        <div class="container py-3 my-3 w-50 p-3">
+
+          <h4 class="text-center">Add a Contact</h4>
+
+          <form>
+  
+  
+            <div class="form-outline mb-4">
+              <input type="text" id="FnameInput" class="form-control" />
+              <label class="form-label" for="FnameInput">First Name</label>
+            </div>
+  
+            <div class="form-outline mb-4">
+              <input type="text" id="LnameInput" class="form-control" />
+              <label class="form-label" for="LnameInput">Last Name</label>
+            </div>
+  
+            <div class="form-outline mb-4">
+              <input type="text" id="EmailInput" class="form-control" />
+              <label class="form-label" for="EmailInput">Email</label>
+            </div>
+  
+            <div class="form-outline mb-4">
+              <input type="text" id="NumberInput" class="form-control" />
+              <label class="form-label" for="NumberInput">Phone Number</label>
+            </div>
+  
+            <div class="btn btn-primary btn-block mb-4">
+              <button
+                type="button"
+                id="addColorButton"
+                class="buttons"
+                onclick="addContact();"
+              >
+                Add
+              </button>
+            </div>
+          </form>
+          <span id="contactAddResult"></span>
+        </div>
+      </div>
     </div>
 
     <div id="loggedInDiv">
