@@ -490,3 +490,14 @@ function deleteContact(contactID) {
     searchContacts();
   };
 }
+
+function swarmfish() {
+  var div = document.createElement("div");
+      div.innerHTML = "<img src='images/fishswarm.gif' alt='fishswarm' id = 'fishswarm' style='width:100%;position:absolute;top:0px'>";
+  document.getElementById("all").appendChild(div); 
+  
+  const element = document.getElementById("fishswarm");
+  
+
+  setTimeout(() => { element.remove();  }, 2300);
+}
