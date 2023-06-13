@@ -1,4 +1,4 @@
-const urlBase = "http://fourthreethreeone.xyz/LAMPAPI";
+const urlBase = "http://cop4331-aw.com/LAMPAPI";
 const extension = "php";
 
 let userId = 0;
@@ -14,7 +14,7 @@ function doLogin() {
   let password = document.getElementById("loginPassword").value;
   //	var hash = md5( password );
 
-  document.getElementById("loginResult").innerHTML = "";
+  document.getElementById("loginResult").inneorHTML = "";
 
   let tmp = { login: login, password: password };
   //	var tmp = {login:login,password:hash};
@@ -178,18 +178,6 @@ function registerNewUser() {
   }
 }
 
-function compare(a,b) {
-  const nameA = a.FirstName.toUpperCase(); 
-  const nameB = b.FirstName.toUpperCase(); 
-  if (nameA > nameB) {
-    return 1;
-  }
-  if (nameA < nameB) {
-    return -1;
-  }
-  return 0;
-}
-
 function searchContacts() {
   readCookie();
 
@@ -213,32 +201,44 @@ function searchContacts() {
       if (this.readyState == 4 && this.status == 200) {
         let jsonObject = JSON.parse(xhr.responseText);
 
-        if (jsonObject.id == 0)
-        {
-          document.getElementById("accordionExample").innerHTML = "<p id='nocontacts'>No contacts found</p>";
-          return;
-        }
-
-
-        jsonObject.results.sort(compare);
-
         let j = 0;
-        let i = 0;
-        for (i = 0; i < jsonObject.results.length; i++) {
+        for (let i = 0; i < jsonObject.results.length; i++) {
+          /*		
+					contactsList += jsonObject.results[i];
+					if( i < jsonObject.results.length - 1 )
+					{
+						contactsList += "<br />\r\n";
+					}
+			*/
           j = i + 1;
 
           var div = document.createElement("div");
           div.innerHTML =
             "<div class='accordion-item'>" +
-            "<h2 class='accordion-header' id='heading" + j +"'>" +
-            "<button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#collapse" + j +
-            "' aria-expanded='false' aria-controls='collapse" + j + "'>" +
-            "<span id = listFname" +i +">" +jsonObject.results[i].FirstName +"</span> " +
+            "<h2 class='accordion-header' id='heading" +
+            j +
+            "'>" +
+            "<button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#collapse" +
+            j +
+            "' aria-expanded='false' aria-controls='collapse" +
+            j +
+            "'>" +
+            "<span id = listFname" +
+            i +
+            ">" +
+            jsonObject.results[i].FirstName +
+            "</span> " +
             "<p> &nbsp</p>" +
-            "<span id = listLname" + i + ">" +jsonObject.results[i].LastName +"</span> " +
+            "<span id = listLname" +
+            i +
+            ">" +
+            jsonObject.results[i].LastName +
+            "</span> " +
             "</button>" +
             "</h2>" +
-            "<div id='collapse" + j +"' class='accordion-collapse collapse' aria-labelledby='heading" +
+            "<div id='collapse" +
+            j +
+            "' class='accordion-collapse collapse' aria-labelledby='heading" +
             j +
             "' data-bs-parent='#accordionExample'>" +
             "<div class='accordion-body' style='font-size:15px; background-color: #eee;'>" +
@@ -247,13 +247,12 @@ function searchContacts() {
             ">" +
             jsonObject.results[i].Phone +
             "</span> " +
-            "&nbsp &nbsp &nbsp &nbsp" +
+            " " +
             "<span id = listEmail" +
             i +
             ">" +
             jsonObject.results[i].Email +
             "</span> " +
-            "<span class = 'acbuttons'>" +
             "&nbsp&nbsp&nbsp<button type='button' class='editbutton' onclick='editContact(" +
             jsonObject.results[i].ID +
             "," +
@@ -262,14 +261,11 @@ function searchContacts() {
             "&nbsp&nbsp&nbsp<button type='button' class='deletebutton' onclick='deleteContact(" +
             jsonObject.results[i].ID +
             ");'> Delete </button>" +
-            "</span>" +
             "</div>" +
             "</div>" +
             "</div>";
           document.getElementById("accordionExample").appendChild(div);
         }
-
-        
       }
     };
     xhr.send(jsonPayload);
@@ -285,32 +281,6 @@ function addContact() {
   let lname = document.getElementById("LnameInput").value;
   let contactemail = document.getElementById("EmailInput").value;
   let contactphone = document.getElementById("NumberInput").value;
-	
-  // Verifies that the information is valid format
-  if (
-    fname == "" ||
-    lname == "" ||
-    contactemail == "" ||
-    contactphone == ""
-  ) {
-    document.getElementById("contactAddResult").innerHTML =
-          "Error, one or more fields are empty";
-          return;
-  }
-
-  if (!(/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/.test(contactphone)))
-  {
-    document.getElementById("contactAddResult").innerHTML =
-          "Error, phone number must be in format XXX-XXX-XXXX";
-          return;
-  }
-
-  if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(contactemail)))
-  {
-    document.getElementById("contactAddResult").innerHTML =
-          "Error, email is not a valid format";
-          return;
-  }
 
   let tmp = {
     firstName: fname,
@@ -331,7 +301,7 @@ function addContact() {
     xhr.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         document.getElementById("contactAddResult").innerHTML =
-          "<span style='color:#000000;'>"+ "Contact has been added" + "</span>";
+          "Contact has been added";
       }
     };
     xhr.send(jsonPayload);
@@ -352,7 +322,7 @@ function editContact(contactID, placeOnPage) {
 
   var div = document.createElement("div");
   div.innerHTML =
-    "<h4> Edit Menu </h4>" +
+    "<h2> Edit Menu </h2>" +
     "<div class='row'>" +
     "<div class = 'col-sm-6'>" +
     "<input type='text' id='editFNameInput' value='" +
@@ -381,9 +351,9 @@ function editContact(contactID, placeOnPage) {
     contactID +
     ");'> Save</button>" +
     "</div>" +
-    "</div>";
+    "</div>" +
+    "<br />";
   document.getElementById("editContact").appendChild(div);
-  window.scrollTo(0, 0);
   xhr.onload = function () {
     searchContacts();
   };
@@ -398,32 +368,6 @@ function saveEdit(contactID) {
   let lname = document.getElementById("editLNameInput").value;
   let contactemail = document.getElementById("editEmailInput").value;
   let contactphone = document.getElementById("editPhoneInput").value;
-	
-  // Verifies that the information is valid format
-  if (
-    fname == "" ||
-    lname == "" ||
-    contactemail == "" ||
-    contactphone == ""
-  ) {
-    document.getElementById("contactEditResult").innerHTML =
-          "Error, one or more fields are empty" + "<br>";
-          return;
-  }
-
-  if (!(/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/.test(contactphone)))
-  {
-    document.getElementById("contactEditResult").innerHTML =
-          "Error, phone number must be in format XXX-XXX-XXXX" + "<br>";
-          return;
-  }
-
-  if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(contactemail)))
-  {
-    document.getElementById("contactEditResult").innerHTML =
-          "Error, email is not a valid format" + "<br>";
-          return;
-  }
 
   let tmp = {
     firstName: fname,
@@ -449,7 +393,6 @@ function saveEdit(contactID) {
   }
 
   document.getElementById("editContact").innerHTML = "";
-  document.getElementById("contactEditResult").innerHTML = "";
 
   xhr.onload = function () {
     searchContacts();
@@ -457,11 +400,6 @@ function saveEdit(contactID) {
 }
 
 function deleteContact(contactID) {
-
-  if (confirm("Are you sure you want to delete this contact?") == false)
-  {
-    return;
-  }
   userId = 0;
   readCookie();
 
@@ -489,15 +427,4 @@ function deleteContact(contactID) {
   xhr.onload = function () {
     searchContacts();
   };
-}
-
-function swarmfish() {
-  var div = document.createElement("div");
-      div.innerHTML = "<img src='images/fishswarm.gif' alt='fishswarm' id = 'fishswarm' style='width:100%;position:absolute;top:0px'>";
-  document.getElementById("all").appendChild(div); 
-  
-  const element = document.getElementById("fishswarm");
-  
-
-  setTimeout(() => { element.remove();  }, 2500);
 }
